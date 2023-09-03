@@ -16,18 +16,21 @@
   "type": "commonjs",
   "main": "./src/index.js",
   "scripts": {
-    "dev": "ts-node src/index.ts",
+    "dev": "ts-node src/run/run.ts",
     "lint": "eslint --report-unused-disable-directives --fix . && prettier --write .",
     "lint:nofix": "eslint --report-unused-disable-directives . && prettier --check .",
     "test-only": "jest --passWithNoTests",
-    "test": "npm run lint && npm run test-only",
+    "test": "pnpm run lint && pnpm run test-only",
     "build-only": "shx rm -rf ./dist && tsc --project tsconfig.lib.json",
-    "build": "npm run test && npm run build-only",
+    "build": "pnpm run test && pnpm run build-only",
     "pub-only": "npmpub",
-    "pub": "npm run build && npm run pub-only"
+    "pub": "pnpm run build && pnpm run pub-only"
   },
   "dependencies": {
-    "tslib": "^2.6.2"
+    "@gmjs/fs-async": "^0.0.5",
+    "dotenv": "^16.3.1",
+    "tslib": "^2.6.2",
+    "zod": "^3.22.2"
   },
   "devDependencies": {
     "@gmjs/eslint-config": "^0.0.18",
