@@ -27,8 +27,14 @@
     "pub": "pnpm run build && pnpm run pub-only"
   },
   "dependencies": {
+    "@gmjs/apply-function": "^0.0.1",
+    "@gmjs/compose-function": "^0.0.1",
     "@gmjs/fs-async": "^0.0.5",
+    "@gmjs/number-util": "^0.0.1",
+    "@gmjs/value-transformers": "^0.0.2",
+    "axios": "^1.5.0",
     "dotenv": "^16.3.1",
+    "luxon": "^3.4.2",
     "tslib": "^2.6.2",
     "zod": "^3.22.2"
   },
@@ -40,6 +46,7 @@
     "@gmjs/tsconfig": "^1.0.8",
     "@jest/globals": "^29.6.4",
     "@types/eslint": "^8.44.2",
+    "@types/luxon": "^3.3.2",
     "@typescript-eslint/eslint-plugin": "^6.5.0",
     "@typescript-eslint/parser": "^6.5.0",
     "eslint": "^8.48.0",

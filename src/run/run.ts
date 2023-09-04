@@ -11,6 +11,7 @@ export async function run(): Promise<void> {
   const input: DownloadInput = {
     url: 'https://charts.finsa.com.au',
     fetchLength: 1000,
+    tickerDataDir: 'data',
     authData: {
       username: env.td365Username,
       password: env.td365Password,
