@@ -1,15 +1,16 @@
 import { join } from 'node:path';
 import { existsAsync, readTextAsync } from '@gmjs/fs-async';
 import {
-  DownloadInput,
   InstrumentDetails,
   TickerDataResolution,
+  TickerDataRow,
 } from '../../types';
+import { parseIntegerOrThrow, parseFloatOrThrow } from '@gmjs/number-util';
 
 export interface GetExistingDataInput {
   readonly instrument: InstrumentDetails;
   readonly resolution: TickerDataResolution;
-  readonly downloadInput: DownloadInput;
+  readonly tickerDataDir: string;
 }
 
 export async function getExistingData(
@@ -34,8 +35,7 @@ export function getLatestExistingDatetime(
 }
 
 async function tickerDataExists(input: GetExistingDataInput): Promise<boolean> {
-  const { instrument, resolution, downloadInput } = input;
-  const { tickerDataDir } = downloadInput;
+  const { instrument, resolution, tickerDataDir } = input;
 
   return await existsAsync(
     getTickerDataFilePath(tickerDataDir, instrument.name, resolution),
@@ -45,8 +45,7 @@ async function tickerDataExists(input: GetExistingDataInput): Promise<boolean> {
 async function getTickerDataLines(
   input: GetExistingDataInput,
 ): Promise<readonly string[]> {
-  const { instrument, resolution, downloadInput } = input;
-  const { tickerDataDir } = downloadInput;
+  const { instrument, resolution, tickerDataDir } = input;
 
   const allText = await readTextAsync(
     getTickerDataFilePath(tickerDataDir, instrument.name, resolution),
@@ -74,32 +73,31 @@ function tickerContentToDataLines(content: string): readonly string[] {
   return lines.length > 0 ? lines.slice(1) : [];
 }
 
-// async function getTickerDataRows(
-//   input: GetExistingDataInput,
-// ): Promise<readonly TickerDataRow[]> {
-//   const { instrument, resolution, downloadInput } = input;
-//   const { tickerDataDir } = downloadInput;
+export async function getTickerDataRows(
+  input: GetExistingDataInput,
+): Promise<readonly TickerDataRow[]> {
+  const { instrument, resolution, tickerDataDir } = input;
 
-//   const allText = await readTextAsync(
-//     getTickerDataFilePath(tickerDataDir, instrument.name, resolution),
-//   );
-//   return tickerContentToDataRows(allText);
-// }
+  const allText = await readTextAsync(
+    getTickerDataFilePath(tickerDataDir, instrument.name, resolution),
+  );
+  return tickerContentToDataRows(allText);
+}
 
-// function tickerContentToDataRows(content: string): readonly TickerDataRow[] {
-//   const lines = tickerContentToDataLines(content);
-//   return lines.map((line) => tickerDataLineToRow(line));
-// }
+function tickerContentToDataRows(content: string): readonly TickerDataRow[] {
+  const lines = tickerContentToDataLines(content);
+  return lines.map((line) => tickerDataLineToRow(line));
+}
 
-// function tickerDataLineToRow(line: string): TickerDataRow {
-//   const parts = line.split(',');
+function tickerDataLineToRow(line: string): TickerDataRow {
+  const parts = line.split(',');
 
-//   return {
-//     ts: parseIntegerOrThrow(parts[0] ?? ''),
-//     date: parts[1] ?? '',
-//     o: parseFloatOrThrow(parts[2] ?? ''),
-//     h: parseFloatOrThrow(parts[3] ?? ''),
-//     l: parseFloatOrThrow(parts[4] ?? ''),
-//     c: parseFloatOrThrow(parts[5] ?? ''),
-//   };
-// }
+  return {
+    ts: parseIntegerOrThrow(parts[0] ?? ''),
+    date: parts[1] ?? '',
+    o: parseFloatOrThrow(parts[2] ?? ''),
+    h: parseFloatOrThrow(parts[3] ?? ''),
+    l: parseFloatOrThrow(parts[4] ?? ''),
+    c: parseFloatOrThrow(parts[5] ?? ''),
+  };
+}

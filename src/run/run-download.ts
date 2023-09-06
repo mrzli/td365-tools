@@ -1,12 +1,15 @@
 import dotenv from 'dotenv';
 import { parseEnv } from './env';
 import { downloadAllData } from '../impl';
-import { DownloadInput } from '../types';
+import { DownloadInput, TYPES_OF_TICKER_DATA_RESOLUTION } from '../types';
+import { getInstruments } from '../impl/instruments';
 
 dotenv.config({ path: '.env.local' });
 
 export async function run(): Promise<void> {
   const env = parseEnv(process.env);
+
+  const instruments = await getInstruments();
 
   const input: DownloadInput = {
     url: 'https://charts.finsa.com.au',
@@ -18,6 +21,8 @@ export async function run(): Promise<void> {
       clientId: env.td365ClientId,
       accountId: env.td365AccountId,
     },
+    instruments,
+    resolutions: TYPES_OF_TICKER_DATA_RESOLUTION,
   };
 
   await downloadAllData(input);

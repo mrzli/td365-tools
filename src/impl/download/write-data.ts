@@ -10,7 +10,10 @@ import {
 } from '../../types';
 import { ensureDirAsync, writeTextAsync } from '@gmjs/fs-async';
 import { DateTime } from 'luxon';
-import { getLatestExistingDatetime, getTickerDataFilePath } from './existing-data';
+import {
+  getLatestExistingDatetime,
+  getTickerDataFilePath,
+} from '../data/existing-data';
 import { getIsoDatetimefromDataItem } from './util';
 
 const TICKER_DATA_CSV_HEADER = ['ts', 'date', 'o', 'h', 'l', 'c'].join(',');

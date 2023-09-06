@@ -1,25 +1,28 @@
 import {
   DownloadInput,
   InstrumentDetails,
-  TYPES_OF_TICKER_DATA_RESOLUTION,
   TickerDataResolution,
 } from '../../types';
-import { getInstruments } from '../instruments';
 import {
   GetExistingDataInput,
   getExistingData,
   getLatestExistingDatetime,
-} from './existing-data';
+} from '../data/existing-data';
 import { FetchAllDataInput, fetchAllData } from './fetch-data';
 import { WriteDataInput, writeData } from './write-data';
 
 export async function downloadAllData(input: DownloadInput): Promise<void> {
-  console.log('Downloading data...');
+  await downloadAllDataInternal(input);
+}
 
-  const instruments = await getInstruments();
+export async function downloadAllDataInternal(
+  input: DownloadInput,
+): Promise<void> {
+  console.log('Downloading data...');
+  const { instruments, resolutions } = input;
 
   for (const instrument of instruments) {
-    for (const resolution of TYPES_OF_TICKER_DATA_RESOLUTION) {
+    for (const resolution of resolutions) {
       await downloadData(input, instrument, resolution);
     }
   }
@@ -33,7 +36,7 @@ async function downloadData(
   const existingDataInput: GetExistingDataInput = {
     instrument,
     resolution,
-    downloadInput: input,
+    tickerDataDir: input.tickerDataDir,
   };
 
   const existingData = await getExistingData(existingDataInput);

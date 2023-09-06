@@ -8,15 +8,27 @@ dependencies:
   '@gmjs/apply-function':
     specifier: ^0.0.1
     version: 0.0.1
+  '@gmjs/assert':
+    specifier: ^0.0.2
+    version: 0.0.2
   '@gmjs/compose-function':
     specifier: ^0.0.1
     version: 0.0.1
   '@gmjs/fs-async':
     specifier: ^0.0.5
     version: 0.0.5
+  '@gmjs/fs-observable':
+    specifier: ^0.0.1
+    version: 0.0.1
+  '@gmjs/fs-shared':
+    specifier: ^0.0.3
+    version: 0.0.3
   '@gmjs/number-util':
     specifier: ^0.0.1
     version: 0.0.1
+  '@gmjs/path':
+    specifier: ^0.0.2
+    version: 0.0.2
   '@gmjs/value-transformers':
     specifier: ^0.0.2
     version: 0.0.2
@@ -29,6 +41,9 @@ dependencies:
   luxon:
     specifier: ^3.4.2
     version: 3.4.2
+  rxjs:
+    specifier: ^7.8.1
+    version: 7.8.1
   tslib:
     specifier: ^2.6.2
     version: 2.6.2
@@ -49,6 +64,9 @@ devDependencies:
   '@gmjs/prettier-config':
     specifier: ^1.0.45
     version: 1.0.45
+  '@gmjs/test-util':
+    specifier: ^0.0.11
+    version: 0.0.11
   '@gmjs/tsconfig':
     specifier: ^1.0.8
     version: 1.0.8
@@ -500,6 +518,13 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@gmjs/assert@0.0.2:
+    resolution: {integrity: sha512-ZqwGmv72n4NXH2RFOwJqLHUiLhpvqzvSi5Rmke+M4RKoCnchWaNzAmrq/y6OBJIzhA0OOLAfSdF/sLWuJtGcgQ==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
+
   /@gmjs/cli-wrapper@0.0.1:
     resolution: {integrity: sha512-BgZuk1gDjecXlZz7CyMEtNRQ46ZBiBWF3ex65QlFcZNolJWMTroGQjqwPAjhOsc08/MxBg5ObIC17xduWBd9Pw==}
     engines: {node: '>=16.0.0'}
@@ -515,6 +540,13 @@ packages:
       '@gmjs/generic-types': 0.0.1
       tslib: 2.6.2
     dev: false
+
+  /@gmjs/crypto@0.0.2:
+    resolution: {integrity: sha512-Qx5oV8MLin5gnzuSxUpYVTub2HI9DZ/l3kmdKjeWi13v6UXnA8zYuel7u4vX1sTgenhglWDUZ4VKpsKIaJJkxQ==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      tslib: 2.6.2
+    dev: true
 
   /@gmjs/eslint-config@0.0.18(@typescript-eslint/eslint-plugin@6.5.0)(@typescript-eslint/parser@6.5.0)(eslint-config-prettier@9.0.0)(eslint-import-resolver-typescript@3.6.0)(eslint-plugin-import@2.28.1)(eslint-plugin-n@16.0.2)(eslint-plugin-unicorn@48.0.1)(eslint@8.48.0)(prettier@3.0.3)(typescript@5.2.2):
     resolution: {integrity: sha512-+bGJWckvHs0UBrZrNWxHVCYUgHcYeMLEar5lg5vRQX+S812m3ChsmJgJARxOKO3NLiBXnwBR8atzwv125biV3w==}
@@ -582,13 +614,23 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /@gmjs/fs-observable@0.0.1:
+    resolution: {integrity: sha512-65I+qoOmQKtbuA97CSFErLZaIhMj2yxPYg1kPYdti1QtFEl43zjaGHIVYRo4hFz3D84uhx50xTBOAArSDLKbEg==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@gmjs/fs-shared': 0.0.2
+      '@types/klaw': 3.0.3
+      klaw: 4.1.0
+      rxjs: 7.8.1
+      tslib: 2.6.2
+    dev: false
+
   /@gmjs/fs-shared@0.0.2:
     resolution: {integrity: sha512-ZzajHfyJI1vK7m2oYrKCt0kWAVuINSOlCAilQBiuCbNOlFCnarhJ0E7/ximrrJhY8a5uSRB5CqPqiPIwGW7PnQ==}
     engines: {node: '>=16.0.0'}
     dependencies:
       klaw: 4.1.0
       tslib: 2.6.2
-    dev: true
 
   /@gmjs/fs-shared@0.0.3:
     resolution: {integrity: sha512-FP4dfe7Sr7WexkgtyWjQ/5+gXp4oIA0c8DF6mM4upB3AghSeg/PoU9TWqaYO4n7y8c4qoRLCoE6Gp7dvpj7JBA==}
@@ -661,8 +703,26 @@ packages:
       tslib: 2.6.2
     dev: true
 
+  /@gmjs/path@0.0.2:
+    resolution: {integrity: sha512-xR2YJ8fzTZL8loZyV5Ci+Db9GNh+B0YXf8JcukMXu5mrZtrGQZKzuUVHpttR30brUpwd9PxT2GkmGDmeJy8qQA==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      tslib: 2.6.2
+
   /@gmjs/prettier-config@1.0.45:
     resolution: {integrity: sha512-pDVdasYadwsaGcCyPRRghrsKqJQurGiUNakaELmfWyM3OXdZT+OYkcbCBhV3WY+mUEJGvaPIFk2kG0uzytpByw==}
+    dev: true
+
+  /@gmjs/test-util@0.0.11:
+    resolution: {integrity: sha512-caapVzxXTWxTtvE0rxvN3eyfcig4g1cv6wPtL4olwnwV8yVoqacmRFu5um1s1eslUItFifUFYRKLCkbzd+a5Hw==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      '@gmjs/crypto': 0.0.2
+      '@gmjs/fs-async': 0.0.4
+      '@gmjs/fs-shared': 0.0.2
+      '@gmjs/fs-sync': 0.0.2
+      '@gmjs/path': 0.0.2
+      tslib: 2.6.2
     dev: true
 
   /@gmjs/tsconfig@1.0.8:
@@ -1107,13 +1167,18 @@ packages:
     resolution: {integrity: sha512-dRLjCWHYg4oaA77cxO64oO+7JwCwnIzkZPdrrC71jQmQtlhM556pwKo5bUzqvZndkVbeFLIIi+9TC40JNF5hNQ==}
     dev: true
 
+  /@types/klaw@3.0.3:
+    resolution: {integrity: sha512-mXlRDFbTLpVysvxahXUQav0hFctgu3Fqr2xmSrpf/ptO/FwOp7SFEGsJkEihwshMbof3/BIiVJ/o42cuOOuv6g==}
+    dependencies:
+      '@types/node': 20.5.9
+    dev: false
+
   /@types/luxon@3.3.2:
     resolution: {integrity: sha512-l5cpE57br4BIjK+9BSkFBOsWtwv6J9bJpC7gdXIzZyI0vuKvNTk0wZZrkQxMGsUAuGW9+WMNWF2IJMD7br2yeQ==}
     dev: true
 
   /@types/node@20.5.9:
     resolution: {integrity: sha512-PcGNd//40kHAS3sTlzKB9C9XL4K0sTup8nbG5lC14kzEteTNuAFh9u5nA0o5TWnSG2r/JNPRXFVcHJIIeRlmqQ==}
-    dev: true
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
@@ -3857,7 +3922,6 @@ packages:
     resolution: {integrity: sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==}
     dependencies:
       tslib: 2.6.2
-    dev: true
 
   /safe-array-concat@1.0.0:
     resolution: {integrity: sha512-9dVEFruWIsnie89yym+xWTAYASdpw3CJV7Li/6zBewGf9z2i1j31rP6jnY0pHEO4QZh6N0K11bFjWmdR8UGdPQ==}
