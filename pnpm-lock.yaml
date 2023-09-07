@@ -14,6 +14,9 @@ dependencies:
   '@gmjs/compose-function':
     specifier: ^0.0.1
     version: 0.0.1
+  '@gmjs/data-container-util':
+    specifier: ^0.0.1
+    version: 0.0.1
   '@gmjs/fs-async':
     specifier: ^0.0.5
     version: 0.0.5
@@ -547,6 +550,13 @@ packages:
     dependencies:
       tslib: 2.6.2
     dev: true
+
+  /@gmjs/data-container-util@0.0.1:
+    resolution: {integrity: sha512-mN6k1VWxiFWNSpeS2vr+sTlBleh277RNaTfI4isRjsl8m481EWDXNNoqWy3RVtfAldKMpwO/ppLZRiR6E2bmIw==}
+    engines: {node: '>=16.0.0'}
+    dependencies:
+      tslib: 2.6.2
+    dev: false
 
   /@gmjs/eslint-config@0.0.18(@typescript-eslint/eslint-plugin@6.5.0)(@typescript-eslint/parser@6.5.0)(eslint-config-prettier@9.0.0)(eslint-import-resolver-typescript@3.6.0)(eslint-plugin-import@2.28.1)(eslint-plugin-n@16.0.2)(eslint-plugin-unicorn@48.0.1)(eslint@8.48.0)(prettier@3.0.3)(typescript@5.2.2):
     resolution: {integrity: sha512-+bGJWckvHs0UBrZrNWxHVCYUgHcYeMLEar5lg5vRQX+S812m3ChsmJgJARxOKO3NLiBXnwBR8atzwv125biV3w==}

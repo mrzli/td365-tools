@@ -1,4 +1,4 @@
-import { RawDataGroupingByResolution } from "../../internal";
+import { RawDataGroupingByResolution } from '../../internal';
 
 export interface OrganizeRawDataInput {
   readonly inputDataDir: string;

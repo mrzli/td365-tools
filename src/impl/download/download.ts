@@ -3,12 +3,9 @@ import {
   InstrumentDetails,
   TickerDataResolution,
 } from '../../types';
-import {
-  GetExistingDataInput,
-  getExistingData,
-  getLatestExistingDatetime,
-} from '../data/existing-data';
+import { TickerDataInput, readTickerDataLines } from '../data';
 import { FetchAllDataInput, fetchAllData } from './fetch-data';
+import { getTickerDataLatestDatetime } from './util';
 import { WriteDataInput, writeData } from './write-data';
 
 export async function downloadAllData(input: DownloadInput): Promise<void> {
@@ -33,14 +30,14 @@ async function downloadData(
   instrument: InstrumentDetails,
   resolution: TickerDataResolution,
 ): Promise<void> {
-  const existingDataInput: GetExistingDataInput = {
-    instrument,
+  const tickerDataInput: TickerDataInput = {
+    dir: input.tickerDataDir,
+    ticker: instrument.name,
     resolution,
-    tickerDataDir: input.tickerDataDir,
   };
 
-  const existingData = await getExistingData(existingDataInput);
-  const downTo = getLatestExistingDatetime(existingData);
+  const existingData = await readTickerDataLines(tickerDataInput);
+  const downTo = getTickerDataLatestDatetime(existingData);
 
   const fetchInput: FetchAllDataInput = {
     instrument,

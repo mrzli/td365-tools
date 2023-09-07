@@ -31,6 +31,7 @@
     "@gmjs/apply-function": "^0.0.1",
     "@gmjs/assert": "^0.0.2",
     "@gmjs/compose-function": "^0.0.1",
+    "@gmjs/data-container-util": "^0.0.1",
     "@gmjs/fs-async": "^0.0.5",
     "@gmjs/fs-observable": "^0.0.1",
     "@gmjs/fs-shared": "^0.0.3",

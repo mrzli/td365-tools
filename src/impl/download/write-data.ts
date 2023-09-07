@@ -8,15 +8,12 @@ import {
   InstrumentDetails,
   TickerDataResolution,
 } from '../../types';
-import { ensureDirAsync, writeTextAsync } from '@gmjs/fs-async';
 import { DateTime } from 'luxon';
 import {
-  getLatestExistingDatetime,
-  getTickerDataFilePath,
-} from '../data/existing-data';
-import { getIsoDatetimefromDataItem } from './util';
-
-const TICKER_DATA_CSV_HEADER = ['ts', 'date', 'o', 'h', 'l', 'c'].join(',');
+  getIsoDatetimefromDataItem,
+  getTickerDataLatestDatetime,
+} from './util';
+import { TickerDataInput, writeTickerDataLines } from '../data';
 
 export interface WriteDataInput {
   readonly instrument: InstrumentDetails;
@@ -40,7 +37,7 @@ export async function writeData(input: WriteDataInput): Promise<void> {
   );
 
   if (existingData.length > 0) {
-    const latestExistingDate = getLatestExistingDatetime(existingData);
+    const latestExistingDate = getTickerDataLatestDatetime(existingData);
     if (latestExistingDate) {
       processedData = processedData.filter((item) =>
         isAfterLatestExistingDataItem(item, latestExistingDate),
@@ -50,21 +47,13 @@ export async function writeData(input: WriteDataInput): Promise<void> {
 
   const tickerData: readonly string[] = [...existingData, ...processedData];
 
-  await writeTickerData(tickerDataDir, instrument.name, resolution, tickerData);
-}
+  const writeInput: TickerDataInput = {
+    dir: tickerDataDir,
+    ticker: instrument.name,
+    resolution,
+  };
 
-async function writeTickerData(
-  tickerDataDir: string,
-  ticker: string,
-  resolution: TickerDataResolution,
-  data: readonly string[],
-): Promise<void> {
-  const filePath = getTickerDataFilePath(tickerDataDir, ticker, resolution);
-  const content = [TICKER_DATA_CSV_HEADER, ...data].join('\n');
-
-  await ensureDirAsync(tickerDataDir);
-
-  await writeTextAsync(filePath, content);
+  await writeTickerDataLines(writeInput, tickerData);
 }
 
 function processDataItem(item: string, dataPrecision: number): string {
