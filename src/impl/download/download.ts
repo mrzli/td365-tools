@@ -3,8 +3,9 @@ import {
   InstrumentDetails,
   TickerDataResolution,
 } from '../../types';
-import { TickerDataInput, readTickerDataLines } from '../data';
 import { FetchAllDataInput, fetchAllData } from './fetch-data';
+import { readTickerDataLines } from './read-data';
+import { TickerDataInput } from './types';
 import { getTickerDataLatestDatetime } from './util';
 import { WriteDataInput, writeData } from './write-data';
 

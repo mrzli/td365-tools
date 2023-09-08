@@ -13,7 +13,9 @@ import {
   getIsoDatetimefromDataItem,
   getTickerDataLatestDatetime,
 } from './util';
-import { TickerDataInput, writeTickerDataLines } from '../data';
+import { getTickerDataFilePath, tickerDataLinesToContent } from '../data';
+import { ensureDirAsync, writeTextAsync } from '@gmjs/fs-async';
+import { TickerDataInput } from './types';
 
 export interface WriteDataInput {
   readonly instrument: InstrumentDetails;
@@ -74,4 +76,17 @@ function isAfterLatestExistingDataItem(
     dateIsoToUnixMillis(item.split(',')[1] ?? '') >
     dateIsoToUnixMillis(latestExistingDate)
   );
+}
+
+async function writeTickerDataLines(
+  input: TickerDataInput,
+  data: readonly string[],
+): Promise<void> {
+  const { dir, ticker, resolution } = input;
+
+  const filePath = getTickerDataFilePath(dir, ticker, resolution);
+  const content = tickerDataLinesToContent(data);
+
+  await ensureDirAsync(dir);
+  await writeTextAsync(filePath, content);
 }

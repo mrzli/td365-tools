@@ -1,12 +1,12 @@
 import dotenv from 'dotenv';
-import { parseEnv } from './env';
+// import { parseEnv } from './env';
 import { organizeRawData } from '../impl/organize-raw-data';
 import { OrganizeRawDataInput } from '../types';
 
 dotenv.config({ path: '.env.local' });
 
 export async function run(): Promise<void> {
-  const env = parseEnv(process.env);
+  // const env = parseEnv(process.env);
 
   // const instruments = await getInstruments();
 
@@ -26,7 +26,7 @@ export async function run(): Promise<void> {
 
   const input: OrganizeRawDataInput = {
     inputDataDir: 'data',
-    outputDataDir: 'organized-data',
+    outputDataDir: 'C:\\Users\\Mrzli\\Development\\Projects\\private\\projects\\js\\trading\\td365-data-raw\\data',
     groupingByResolution: {
       minute: 'month',
       quarter: 'year',

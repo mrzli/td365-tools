@@ -1,7 +1,6 @@
 import { existsAsync, readTextAsync } from '@gmjs/fs-async';
-import { TickerDataInput } from './ticker-data-input';
-import { getTickerDataFilePath } from './ticker-path';
-import { tickerContentToDataLines } from './ticker-data-converter';
+import { getTickerDataFilePath, tickerContentToDataLines } from '../data';
+import { TickerDataInput } from './types';
 
 export async function readTickerDataLines(
   input: TickerDataInput,
