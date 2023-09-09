@@ -7,39 +7,44 @@ import {
   DownloadInput,
   InstrumentDetails,
   TickerDataResolution,
+  TickerDataRow,
 } from '../../types';
 import { DateTime } from 'luxon';
 import {
   getIsoDatetimefromDataItem,
-  getTickerDataLatestDatetime,
+  getTickerDataLastValidDatetime,
 } from './util';
-import { getTickerDataFilePath, tickerDataLinesToContent } from '../data';
+import {
+  groupTickerData,
+  tickerDataLinesToContent,
+  tickerDataRowToLine,
+} from '../data';
 import { ensureDirAsync, writeTextAsync } from '@gmjs/fs-async';
-import { TickerDataInput } from './types';
+import { join, pathDir } from '@gmjs/path';
 
 export interface WriteDataInput {
   readonly instrument: InstrumentDetails;
   readonly resolution: TickerDataResolution;
   readonly downloadInput: DownloadInput;
   readonly data: readonly string[];
-  readonly existingData: readonly string[];
+  readonly existingData: readonly TickerDataRow[];
 }
 
 export async function writeData(input: WriteDataInput): Promise<void> {
   const { instrument, resolution, downloadInput, data, existingData } = input;
-  const { tickerDataDir } = downloadInput;
+  const { tickerDataDir, groupingByResolution } = downloadInput;
 
   let processedData = applyFn(
     data,
     compose(
-      map((item) => processDataItem(item, instrument.dataPrecision)),
+      map((item) => td365DataLineToDataRow(item)),
       reverse(),
       toArray(),
     ),
   );
 
   if (existingData.length > 0) {
-    const latestExistingDate = getTickerDataLatestDatetime(existingData);
+    const latestExistingDate = getTickerDataLastValidDatetime(existingData);
     if (latestExistingDate) {
       processedData = processedData.filter((item) =>
         isAfterLatestExistingDataItem(item, latestExistingDate),
@@ -47,46 +52,66 @@ export async function writeData(input: WriteDataInput): Promise<void> {
     }
   }
 
-  const tickerData: readonly string[] = [...existingData, ...processedData];
+  const tickerData: readonly TickerDataRow[] = [
+    ...existingData,
+    ...processedData,
+  ];
 
-  const writeInput: TickerDataInput = {
-    dir: tickerDataDir,
-    ticker: instrument.name,
-    resolution,
-  };
+  const finalDir = join(tickerDataDir, instrument.name, resolution);
+  const grouping = groupingByResolution[resolution];
 
-  await writeTickerDataLines(writeInput, tickerData);
+  const groups = groupTickerData(tickerData, grouping);
+
+  const files = groups.map((group) => ({
+    path: join(finalDir, `${group.name}.csv`),
+    content: dataRowsToContent(group.data, instrument.dataPrecision),
+  }));
+
+  for (const file of files) {
+    const { path: resultPath, content } = file;
+    const resultDir = pathDir(resultPath);
+    await ensureDirAsync(resultDir);
+    await writeTextAsync(resultPath, content);
+  }
 }
 
-function processDataItem(item: string, dataPrecision: number): string {
+function td365DataLineToDataRow(item: string): TickerDataRow {
   const datetimeIso = getIsoDatetimefromDataItem(item);
   const ts = DateTime.fromISO(datetimeIso).toUnixInteger();
-  const prices: readonly string[] = item
+  const prices: readonly number[] = item
     .split(',')
     .slice(1)
-    .map((p) => parseFloatOrThrow(p).toFixed(dataPrecision));
-  return [ts.toString(), datetimeIso, ...prices].join(',');
+    .map((p) => parseFloatOrThrow(p));
+
+  return {
+    date: datetimeIso,
+    ts,
+    o: prices[0] ?? 0,
+    h: prices[1] ?? 0,
+    l: prices[2] ?? 0,
+    c: prices[3] ?? 0,
+  };
 }
 
 function isAfterLatestExistingDataItem(
-  item: string,
+  item: TickerDataRow,
   latestExistingDate: string,
 ): boolean {
   return (
-    dateIsoToUnixMillis(item.split(',')[1] ?? '') >
-    dateIsoToUnixMillis(latestExistingDate)
+    dateIsoToUnixMillis(item.date) > dateIsoToUnixMillis(latestExistingDate)
   );
 }
 
-async function writeTickerDataLines(
-  input: TickerDataInput,
-  data: readonly string[],
-): Promise<void> {
-  const { dir, ticker, resolution } = input;
-
-  const filePath = getTickerDataFilePath(dir, ticker, resolution);
-  const content = tickerDataLinesToContent(data);
-
-  await ensureDirAsync(dir);
-  await writeTextAsync(filePath, content);
+function dataRowsToContent(
+  dataRows: readonly TickerDataRow[],
+  dataPrecision: number,
+): string {
+  return applyFn(
+    dataRows,
+    compose(
+      map((row) => tickerDataRowToLine(row, dataPrecision)),
+      toArray(),
+      tickerDataLinesToContent,
+    ),
+  );
 }

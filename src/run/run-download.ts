@@ -24,6 +24,11 @@ export async function run(): Promise<void> {
     },
     instruments,
     resolutions: TYPES_OF_TICKER_DATA_RESOLUTION,
+    groupingByResolution: {
+      minute: 'month',
+      quarter: 'year',
+      day: 'all',
+    },
   };
 
   await downloadAllData(input);
