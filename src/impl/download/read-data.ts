@@ -1,4 +1,4 @@
-import { readTextAsync } from '@gmjs/fs-async';
+import { existsAsync, readTextAsync } from '@gmjs/fs-async';
 import { tickerContentToDataLines, tickerDataLineToRow } from '../data';
 import { TickerDataInput } from './types';
 import { fromFindFsEntries } from '@gmjs/fs-observable';
@@ -17,6 +17,11 @@ export async function readTickerDataRows(
   const { dir, ticker, resolution } = input;
 
   const tickerResolutionDir = join(dir, ticker, resolution);
+
+  const dirExists = await existsAsync(tickerResolutionDir);
+  if (!dirExists) {
+    return [];
+  }
 
   const files: readonly FilePathStats[] = await lastValueFrom(
     fromFindFsEntries(tickerResolutionDir).pipe(
