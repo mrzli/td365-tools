@@ -58,5 +58,17 @@
     "openTime": "09:00",
     "closeTime": "15:00",
     "timezone": "Asia/Tokyo"
+  },
+  {
+    "name": "EUR_USD",
+    "marketId": 16635,
+    "quoteId": 5893,
+    "precision": 5,
+    "dataPrecision": 6,
+    "spread": 0.00003,
+    "minStopLoss": 0,
+    "openTime": "00:00",
+    "closeTime": "00:00",
+    "timezone": "Europe/London"
   }
 ]
