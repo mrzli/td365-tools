@@ -12,7 +12,7 @@ export async function run(): Promise<void> {
   const instruments = await getInstruments();
 
   const input: DownloadInput = {
-    url: 'https://charts.finsa.com.au',
+    url: 'https://charts.finsatechnology.com',
     fetchLength: 1000,
     tickerDataDir:
       'C:\\Users\\Mrzli\\Development\\Projects\\private\\projects\\js\\trading\\td365-data-raw\\data',
