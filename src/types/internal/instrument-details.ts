@@ -7,6 +7,7 @@ export interface InstrumentDetails {
   readonly quoteId: number; // used for getting realtime quotes
   readonly precision: number;
   readonly dataPrecision: number;
+  readonly pipDigit: number;
   readonly spread: number;
   readonly minStopLoss: number;
   readonly openTime: string;
