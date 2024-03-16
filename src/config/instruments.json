@@ -65,6 +65,19 @@
     "timezone": "Asia/Tokyo"
   },
   {
+    "name": "AUD_USD",
+    "marketId": 16592,
+    "quoteId": 5802,
+    "precision": 5,
+    "dataPrecision": 6,
+    "pipDigit": -4,
+    "spread": 0.6,
+    "minStopLoss": 6.0,
+    "openTime": "00:00",
+    "closeTime": "00:00",
+    "timezone": "UTC"
+  },
+  {
     "name": "EUR_USD",
     "marketId": 16635,
     "quoteId": 5893,
@@ -85,6 +98,32 @@
     "dataPrecision": 6,
     "pipDigit": -4,
     "spread": 0.8,
+    "minStopLoss": 6.0,
+    "openTime": "00:00",
+    "closeTime": "00:00",
+    "timezone": "UTC"
+  },
+  {
+    "name": "USD_CAD",
+    "marketId": 16643,
+    "quoteId": 5932,
+    "precision": 5,
+    "dataPrecision": 6,
+    "pipDigit": -4,
+    "spread": 0.9,
+    "minStopLoss": 6.0,
+    "openTime": "00:00",
+    "closeTime": "00:00",
+    "timezone": "UTC"
+  },
+  {
+    "name": "USD_CHF",
+    "marketId": 16591,
+    "quoteId": 5789,
+    "precision": 5,
+    "dataPrecision": 6,
+    "pipDigit": -4,
+    "spread": 1,
     "minStopLoss": 6.0,
     "openTime": "00:00",
     "closeTime": "00:00",
