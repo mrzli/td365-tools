@@ -104,6 +104,19 @@
     "timezone": "UTC"
   },
   {
+    "name": "NZD_USD",
+    "marketId": 16594,
+    "quoteId": 5815,
+    "precision": 5,
+    "dataPrecision": 6,
+    "pipDigit": -4,
+    "spread": 1.3,
+    "minStopLoss": 6.0,
+    "openTime": "00:00",
+    "closeTime": "00:00",
+    "timezone": "UTC"
+  },
+  {
     "name": "USD_CAD",
     "marketId": 16643,
     "quoteId": 5932,
